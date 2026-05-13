@@ -1,0 +1,10 @@
+.env
+*.env
+node_modules/
+__pycache__/
+pycache/
+*.pyc
+.DS_Store
+*.txt
+!README.md
+venv/
