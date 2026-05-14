@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Environment variables
-ENV PORT=5001
-EXPOSE 5001
+ENV PORT=5050
+EXPOSE 5050
 
 CMD ["python", "app.py"]

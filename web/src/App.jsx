@@ -16,7 +16,7 @@ function App() {
     setAudioUrl(null);
 
     try {
-      const response = await fetch('http://localhost:5001/api/generate_podcast', {
+      const response = await fetch('http://localhost:5050/api/generate_podcast', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topic, speakerCount, language, bgMusic }),
