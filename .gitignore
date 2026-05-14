@@ -6,5 +6,6 @@ pycache/
 *.pyc
 .DS_Store
 *.txt
+!requirements.txt
 !README.md
 venv/
