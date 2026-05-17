@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, send_from_directory
 from flask_cors import CORS
 import traceback
 import os
@@ -9,11 +9,15 @@ from scripts.speak import generate_audio
 from scripts.utils import setup_logging, load_env
 
 load_env()
-app = Flask(__name__)
+app = Flask(__name__, static_folder='web/dist', static_url_path='')
 CORS(app)  # Enable CORS for all routes
 logger = setup_logging()
 
-@app.route("/api/generate_podcast", methods=["POST"])
+@app.route('/')
+def serve_frontend():
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/api/generate_podcast', methods=['POST'])
 def generate_podcast():
     try:
         data = request.json
@@ -60,6 +64,12 @@ def generate_podcast():
     except Exception as e:
         logger.error(f"Error in /api/generate_podcast: {traceback.format_exc()}")
         return jsonify({"error": str(e)}), 500
+
+@app.route('/<path:path>')
+def serve_static(path):
+    if os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
